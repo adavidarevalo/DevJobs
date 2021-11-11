@@ -9,6 +9,10 @@
             >
                 <ElementCard :item='item'/>
             </div>
+            <p 
+            v-show="elements.length === 0"
+            class="NotFoundMSG"
+            >0 items found</p>
         </div>
     </section>
 </template>
@@ -46,6 +50,12 @@ export default ({
     flex-wrap: wrap;
     justify-content: center;
     padding-block: 50px 20px;
+}
+.NotFoundMSG{
+    grid-column-start: 2;
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: 2px;
 }
 @media (min-width: 900px){
     .Container{

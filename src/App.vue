@@ -37,6 +37,7 @@ body, html{
   text-align: center;
   color: #2c3e50;
   background: #F3F6F8;
+  min-height: 100vh;
   transition: all .5s ease;
 }
 .Active{

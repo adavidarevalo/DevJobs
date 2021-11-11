@@ -8,17 +8,24 @@
             <div class="Modal-Location">
                 <img :src="require('@/assets/desktop/icon-location.svg')"  alt='Locations'/>
                 <input
-                v-model='location' 
+                v-model='data.location' 
+                @keyup.enter="SendData()"
                 type='text' 
                 placeholder="Filter by Location..."
                 />
             </div>
             <form>
-                <input type="checkbox"/>
+                <input 
+                type="checkbox"
+                class="checkboxTime"
+                @change="changeCheckbox()"
+                />
                 <label>Full-Time Only</label>
             </form>    
             <div class="Modal-Search">
-                <button>Search</button>
+                <button
+                @click="SendData()"
+                >Search</button>
             </div>
         </div>
     </section>
@@ -31,7 +38,11 @@ export default ({
     props: ['modal'],
     data(){
         return{
-            openModal: this.modal
+            openModal: this.modal,
+            data: {
+                location: '',
+                time: false
+            }
         }
     },
     watch: {
@@ -45,6 +56,12 @@ export default ({
     methods: {
         closeModal(){
             this.$emit('closeElement')
+        },
+        changeCheckbox(){
+            this.data.time = !this.data.time
+        },
+        SendData(){
+            this.$emit('dataModal', this.data)
         }
     }
 })
@@ -61,6 +78,7 @@ section{
     justify-content: center;
     align-items: center;
     transform: translateY(-110vh);
+    opacity: 0;
     transition: all 1s ease;
 }
 .closeIcon{
@@ -68,8 +86,10 @@ section{
     top: 5%;
     right: 5%;
     width: 28px;
+    cursor: pointer;
 }
 .Active{
+    opacity: 1;
     transform: translateY(0px);
     top: 0px;
 }
@@ -77,12 +97,17 @@ section{
     background: white;
     width: 80%;
     border-radius: 5px;
+    max-width: 470px;
 }
 .Modal-Location{
-    padding: 15px 0px;
+    padding: 15px;
     border-bottom: 1px solid #80808094;
     display: flex;
     justify-content: space-around;
+    align-items: center;
+}
+.checkboxTime{
+    width: 15px;
 }
 form{
   display: flex;
@@ -101,6 +126,11 @@ label{
 }
 input{
     outline: none;
+    background: none;
+    width: 70%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #5964e0; 
 }
 button{
     background: #5964e0;
@@ -111,5 +141,8 @@ button{
     padding: 6px 15px;
     border-radius: 5px;
     width: 50%;
+}
+label{
+    color: black;
 }
 </style>

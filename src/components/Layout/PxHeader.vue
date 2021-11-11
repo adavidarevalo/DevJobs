@@ -3,11 +3,11 @@
         <img class="ImageBackground"
         :src="require('@/assets/mobile/bg-pattern-header.svg')" alt="Background"/>
         <section>
-            <img :src="require('@/assets/desktop/logo.svg')" alt="Logo DevJobs"/>
+            <router-link to="/home">
+                <img :src="require('@/assets/desktop/logo.svg')" alt="Logo DevJobs"/>
+            </router-link>
                 <div class="ButtonContainer">
-                <router-link to="/home">
-                    <img :src="require('@/assets/desktop/icon-sun.svg')" alt='Sun'/>
-                </router-link>
+                <img :src="require('@/assets/desktop/icon-sun.svg')" alt='Sun'/>
                 <div
                 @click="changeBackground()"
                 :class=" backgroundElement ? 'ButtonBackground Active' : 'ButtonBackground' "
@@ -40,8 +40,8 @@ export default ({
         }
     },
     created(){
-        const value = localStorage.getItem('backgroundValue')
-        this.backgroundElement = value
+        let value = localStorage.getItem('backgroundValue')
+        this.backgroundElement = value ? true : false;
         this.$bus.$emit('change-background', this.backgroundElement)
     }
 })
@@ -52,7 +52,10 @@ export default ({
 header{
     background: #5964DF;
     position: relative;
+    min-height: 160px;
     max-height: 165px;
+    display: flex;
+    justify-content: center;
 }
 section{
     display: flex;
@@ -63,6 +66,7 @@ section{
     top: 0px;
     height: 100%;
     max-width: 1000px;
+    animation: fadeInDown 1s both;
 }
 .ButtonContainer{
     display: flex;
@@ -103,4 +107,14 @@ section{
         border-bottom-left-radius: 150px;
     }
 }
+  @keyframes fadeInDown {
+  0% {
+  opacity: 0;
+  transform: translate3d(0, -100%, 0);
+  }
+  100% {
+  opacity: 1;
+  transform: none;
+  }
+  } 
 </style>

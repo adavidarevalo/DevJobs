@@ -26,9 +26,16 @@ export default ({
   created(){
     const value = localStorage.getItem('backgroundValue')
     this.changeColor = value
+    this.getElement()
     this.$bus.$on('change-background', (data)=> {
-        this.changeColor = data
+        this.getElement()
     })
+  },
+  methods: {
+    getElement(){
+        const value = localStorage.getItem('backgroundValue')
+            this.changeColor = value === "false" ? false : true;
+    }
   }
 });
 </script>
@@ -47,6 +54,10 @@ export default ({
     margin-inline: 20px;
     min-height: 160px;
     transition: all .5s ease;
+    animation: fadeIn 1s both;
+}
+.card-Container:hover{
+    transform: scale(1.05);
 }
 .Active{
     background: #19202d;
@@ -81,4 +92,8 @@ p:last-child{
     font-weight: 900;
     margin-top: 20px;
 }
+  @keyframes fadeIn {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+  } 
 </style>

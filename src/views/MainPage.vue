@@ -1,6 +1,10 @@
 <template>
   <main>
-    <modal-container :modal='modal' @closeElement='closeModal()'/>
+    <modal-container 
+    :modal='modal' 
+    @closeElement='closeModal()'
+    @dataModal='dataModal($event)'
+    />
     <section>
       <div :class="changeColor ? 'SearchContainer Active' : 'SearchContainer'">
         <div class="Search-Input">
@@ -33,6 +37,7 @@
           </form>
           <button
           @click="searchElement()"
+          class="Button-Search-Complete"
           >Search</button>
         </div>
         <div class="Search-Buttons">
@@ -92,14 +97,23 @@ export default ({
       },
       ChangeCheckbox(){
         this.checkboxTime = !this.checkboxTime
+      },
+      getElement(){
+        let value = localStorage.getItem('backgroundValue')
+          this.changeColor = value === "false" ? false : true;
+      },
+      dataModal(e){
+        this.location = e.location
+        this.checkboxTime = e.time
+        this.searchElement()
+        this.closeModal()
       }
     },
     created(){
       this.elements = SearchElement()
-      const value = localStorage.getItem('backgroundValue')
-      this.changeColor = value
+      this.getElement()
       this.$bus.$on('change-background', (data)=> {
-        this.changeColor = data
+        this.getElement()
         })
     },
 })
@@ -121,6 +135,8 @@ section{
   padding: 5px 10px;
   justify-content: space-between;
   transition: all .5s ease;
+  max-width: 1000px;
+  transition: fadeInRight 1s both;
 }
 .Search-Input,
 .Search-Location{
@@ -139,8 +155,10 @@ input{
 ::placeholder{
     font-size: 1.2rem;
 }
-.Active{
+.Active,
+.Active > div > input{
   background: #19202d;
+  color: white;
 }
 .ButtonSearch{
     width: 35px;
@@ -180,8 +198,14 @@ button{
     border-radius: 5px;
     font-weight: 600;
 }
+img{
+  cursor: pointer;
+}
 .Search-Location{
   display: none;
+}
+.Button-Search-Complete:hover{
+  background: #5964e0e8;
 }
 @media (min-width: 800px){
   .SearchContainer{
@@ -199,4 +223,16 @@ button{
     display: flex;
   }
 }
+  @keyframes fadeInRight {
+  0% {
+  opacity: 0;
+  -webkit-transform: translate3d(100%, 0, 0);
+  transform: translate3d(100%, 0, 0);
+  }
+  100% {
+  opacity: 1;
+  -webkit-transform: none;
+  transform: none;
+  }
+  } 
 </style>

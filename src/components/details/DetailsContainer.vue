@@ -69,16 +69,19 @@ export default ({
     },
     created(){
         this.getInformation()
-        const value = localStorage.getItem('backgroundValue')
-        this.changeColor = value
+        this.getElement()
         this.$bus.$on('change-background', (data)=> {
-        this.changeColor = data
+             this.getElement()
         })
     },
     methods: {
         getInformation(){
             const id = this.$route.params.id
             this.data = SearchElement(id)
+        },
+        getElement(){
+            let value = localStorage.getItem('backgroundValue')
+                this.changeColor = value === "false" ? false : true;
         }
     }
 })
@@ -105,6 +108,7 @@ p{
     padding: 20px 0px;
     top: -15px;
     max-width: 900px;
+    animation: fadeIn 1s both;
 }
 .Details-header_logo{
     width: 60px;
@@ -120,6 +124,12 @@ p{
     background: #eef0fc;
     color: #5964e0;
 }
+button:hover{
+    background: #5964e0e8;
+}
+.Button-Site:hover{
+    background: #bdbdbd;
+}
 .Details-Main{
     background: white;
     width: 90%;
@@ -128,6 +138,7 @@ p{
     box-sizing: border-box;
     text-align: initial;
     max-width: 900px;
+    animation: fadeIn 1s both 1s;
 }
 
 
@@ -164,6 +175,7 @@ span{
     padding-block: 20px;
     width: 100%;
     margin-top: 25px;
+    animation: fadeIn 1s both 2s;
 }
 .Details-Footer_Container{
     display: flex;
@@ -201,7 +213,10 @@ button{
     background: #19202D;
     color: white;
 }
-
+  @keyframes fadeIn {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+  } 
 @media (min-width: 750px){
     .Details-header_logo{
         position: initial;
