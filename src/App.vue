@@ -1,32 +1,49 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+  <div id="app" :class="changeColor ? 'app Active' : 'app'">
+    <px-header/>
     <router-view/>
   </div>
 </template>
 
+<script>
+import PxHeader from '@/components/Layout/PxHeader'
+
+export default {
+  name: 'App',
+  components: {
+    PxHeader
+  },
+  data() {
+    return{
+      changeColor: false
+    }
+  },
+  created() {
+    this.$bus.$on('change-background', (data)=> {
+        this.changeColor = data
+        })
+  }
+}
+</script>
+
 <style>
-#app {
+body, html{
+  margin: 0px;
+}
+.app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  background: #F3F6F8;
+  transition: all .5s ease;
 }
-
-#nav {
-  padding: 30px;
+.Active{
+  background: #121721;
 }
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+a, button{
+  text-decoration: none;
+  cursor: pointer;
 }
 </style>
