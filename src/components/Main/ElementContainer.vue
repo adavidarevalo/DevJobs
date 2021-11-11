@@ -62,7 +62,7 @@ export default ({
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
         max-width: 1000px;
-        margin: 30px auto;
+        margin: 30px auto 0px;
     }
 }
 </style>
